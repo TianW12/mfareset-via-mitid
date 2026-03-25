@@ -28,13 +28,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', "dev-only-insecure-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', False)
+DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 ##### CAS (dtubase login portal) #####
 CAS_SERVER_URL = "https://auth2.dtu.dk/DTU/"
-CAS_VERSION = "3"
+CAS_VERSION = "2"
 
 
 LOGIN_URL = "cas_ng_login"
