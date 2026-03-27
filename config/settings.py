@@ -30,11 +30,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 if len(SECRET_KEY) < 32:
     raise ValueError("DJANGO_SECRET_KEY must be at least 32 characters long")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG").lower()
-if DEBUG not in {"true", "false"}:
-    raise RuntimeError("DEBUG must be 'true' or 'false'")
-
+# This will logic out as either a False or True statement, where default is False.
+DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
@@ -135,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'da-dk'
 
 TIME_ZONE = "Europe/Copenhagen"
 
