@@ -1,3 +1,3 @@
-todo: Under core/ lav profile om til den side hvor man kan resetter sit MFA. TEMPLATE til at starte med.
+todo: 27-03-2026 Add logging so you can see errors in django - confirm by having a url that triggers a logging
 
-todo: lav backenden som nulstiller alle brugerens MFA
+todo: 27-03-2026 Once the user is authenticated, then show his or her's username and a list of each mfa method. Then have a button that deletes all Second factor methods (whitelist: phone, mfa app, thirdparty mfa app).
