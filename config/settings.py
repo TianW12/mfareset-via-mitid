@@ -30,9 +30,10 @@ if len(SECRET_KEY) < 32:
     raise ValueError("DJANGO_SECRET_KEY must be at least 32 characters long")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG").lower()
-if DEBUG not in {"true", "false"}:
+_debug_raw = os.getenv("DJANGO_DEBUG", "").lower()
+if _debug_raw not in {"true", "false"}:
     raise RuntimeError("DEBUG must be 'true' or 'false'")
+DEBUG = _debug_raw == "true"
 
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
