@@ -8,6 +8,25 @@
     <h1>CAS Profile</h1>
 
     <p><strong>Django username:</strong> {{ user.username }}</p>
+    <p><strong>Resolved UPN:</strong> {{ resolved_upn }}</p>
+
+    <h2>Authentication methods</h2>
+    {% if graph_error %}
+        <p><strong>Error:</strong> {{ graph_error }}</p>
+    {% elif auth_methods %}
+        <ul>
+            {% for method in auth_methods %}
+                <li>
+                    <strong>{{ method.label }}</strong>
+                    {% if method.details %}
+                        <br>{{ method.details }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No authentication methods found.</p>
+    {% endif %}
 
     <h2>Raw CAS attributes</h2>
     {% if cas_attributes %}
