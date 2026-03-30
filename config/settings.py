@@ -21,6 +21,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -29,13 +30,14 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 if len(SECRET_KEY) < 32:
     raise ValueError("DJANGO_SECRET_KEY must be at least 32 characters long")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG").lower()
-if DEBUG not in {"true", "false"}:
-    raise RuntimeError("DEBUG must be 'true' or 'false'")
+# This will logic out as either a False or True statement, where default is False.
+DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
 
-
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = [
+    "mfa-dtu.vezit.net",
+    "127.0.0.1",
+    "localhost",
+    ]
 
 ##### CAS (dtubase login portal) #####
 CAS_SERVER_URL = "https://auth2.dtu.dk/DTU/"
@@ -104,13 +106,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "NAME": os.getenv("SQLITE_PATH", "/data/db.sqlite3"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -134,7 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'da-dk'
 
 TIME_ZONE = "Europe/Copenhagen"
 
@@ -147,6 +149,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = "/app/staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

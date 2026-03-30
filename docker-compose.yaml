@@ -1,0 +1,27 @@
+services:
+  web:
+    build: .
+    container_name: mitid-app
+
+    environment:
+      - SQLITE_PATH=/data/db.sqlite3
+      - DJANGO_SETTINGS_MODULE=config.settings
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - AZURE_APP_REGISTRATION_CLIENT_ID=${AZURE_APP_REGISTRATION_CLIENT_ID}
+      - AZURE_APP_REGISTRATION_CLIENT_SECRET=${AZURE_APP_REGISTRATION_CLIENT_SECRET}
+      - AZURE_TENANT_ID=${AZURE_TENANT_ID}
+      
+    volumes:
+      - mitid-data:/data
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8000"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+volumes:
+  mitid-data:
+
