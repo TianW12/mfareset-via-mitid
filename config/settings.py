@@ -30,8 +30,12 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 if len(SECRET_KEY) < 32:
     raise ValueError("DJANGO_SECRET_KEY must be at least 32 characters long")
 
-# This will logic out as either a False or True statement, where default is False.
-DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
+# SECURITY WARNING: don't run with debug turned on in production!
+_debug_raw = os.getenv("DJANGO_DEBUG", "").lower()
+if _debug_raw not in {"true", "false"}:
+    raise RuntimeError("DEBUG must be 'true' or 'false'")
+DEBUG = _debug_raw == "true"
+
 
 ALLOWED_HOSTS = [
     "mfa-dtu.vezit.net",

@@ -18,6 +18,12 @@ def prettify_auth_methods(methods):
             phone_number = method.get("phoneNumber", "")
             details = f"{phone_type}: {phone_number}"
 
+        elif odata_type.endswith("microsoftAuthenticatorAuthenticationMethod"):
+            label = "Microsoft Authenticator"
+            display_name = method.get("displayName", "")
+            device_tag = method.get("deviceTag", "")
+            details = f"{display_name} ({device_tag})"
+
         elif odata_type.endswith("softwareOathAuthenticationMethod"):
             label = "Software OATH token"
 

@@ -1,18 +1,51 @@
+{% load static %}
 <!doctype html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DTU MFA Reset</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/home.css' %}">
 </head>
 <body>
-    <h1>Hello world</h1>
 
-    {% if user.is_authenticated %}
-        <p>Logged in as {{ user.username }}</p>
-        <p><a href="{% url 'profile' %}">See CAS profile</a></p>
-        <p><a href="{% url 'cas_ng_logout' %}">Logout</a></p>
-    {% else %}
-        <p><a href="{% url 'cas_ng_login' %}">Login with CAS</a></p>
-    {% endif %}
+    <header class="site-header">
+        <img src="{% static 'core/DTU_Logo.png' %}" alt="DTU" class="dtu-logo">
+        <span class="site-header-title"> Danmarks Tekniske Universitet</span>
+        <div class="site-header-sep"></div>
+        <span class="site-header-sub">MFA Self-Service</span>
+    </header>
+
+    <div class="page-content">
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-header">
+                    <h1>MFA Reset</h1>
+                </div>
+                <p class="subtitle">Log in with MitID to change or reset your MFA methods.</p>
+
+                {% if user.is_authenticated %}
+                    <div class="already-logged-in">
+                        <span class="check-icon">✓</span>
+                        <span>Logged in as <strong>{{ user.username }}</strong></span>
+                    </div>
+                    <a href="{% url 'profile' %}" class="login-btn">Go to MFA Reset </a>
+                    <a href="{% url 'cas_ng_logout' %}" class="logout-link">     Log out</a>
+                {% else %}
+                    <div class="gif-container">
+                        <img src="{% static 'core/login_guide.gif' %}" alt="Login guide">
+                    </div>
+
+
+                    <div class="action-row">
+                        <a href="{% url 'cas_ng_login' %}" class="login-btn">Click here to start</a>
+                        <span class="action-hint">You will be redirected to the DTU login page,<br>where you click <em>"Logon with MitID"</em>.</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
