@@ -1,45 +1,69 @@
+{% load static %}
 <!doctype html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CAS Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/home.css' %}">
 </head>
 <body>
-    <h1>CAS Profile</h1>
 
-    <p><strong>Django username:</strong> {{ user.username }}</p>
-    <p><strong>Resolved UPN:</strong> {{ resolved_upn }}</p>
+    <header class="site-header">
+        <img src="{% static 'core/DTU_Logo.png' %}" alt="DTU" class="dtu-logo">
+        <span class="site-header-title">Danmarks Tekniske Universitet</span>
+        <div class="site-header-sep"></div>
+        <span class="site-header-sub">MFA Self-Service</span>
+    </header>
 
-    <h2>Authentication methods</h2>
-    {% if graph_error %}
-        <p><strong>Error:</strong> {{ graph_error }}</p>
-    {% elif auth_methods %}
-        <ul>
-            {% for method in auth_methods %}
-                <li>
-                    <strong>{{ method.label }}</strong>
-                    {% if method.details %}
-                        <br>{{ method.details }}
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No authentication methods found.</p>
-    {% endif %}
+    <div class="page-content">
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-header">
+                    <h1>CAS Profile</h1>
+                </div>
 
-    <h2>Raw CAS attributes</h2>
-    {% if cas_attributes %}
-        <pre>{{ cas_attributes }}</pre>
-        <ul>
-            {% for key, value in cas_attributes.items %}
-                <li><strong>{{ key }}</strong>: {{ value }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No CAS attributes found in session.</p>
-    {% endif %}
+                <div class="already-logged-in" style="align-items: flex-start; margin-bottom: 2rem;">
+                    <span class="check-icon" style="margin-top: 2px; flex-shrink: 0;">✓</span>
+                    <div>
+                        <div>Logged in as <strong>{{ user.username }}</strong></div>
+                        <div style="font-size: 0.85rem; color: #4a7c5c; margin-top: 0.3rem; font-weight: 400;">{{ resolved_upn }}</div>
+                    </div>
+                </div>
 
-    <p><a href="{% url 'cas_ng_logout' %}">Logout</a></p>
+                <p class="section-title">Your current authentication methods</p>
+
+                {% if graph_error %}
+                    <div class="error-box">
+                        <strong>Could not load methods:</strong> {{ graph_error }}
+                    </div>
+                {% elif auth_methods %}
+                    <ul class="methods-list">
+                        {% for method in auth_methods %}
+                            <li class="method-item">
+                                <span class="method-dot"></span>
+                                <div>
+                                    <div class="method-label">{{ method.label }}</div>
+                                    {% if method.details %}
+                                        <div class="method-details">{{ method.details }}</div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="no-methods">No authentication methods found.</p>
+                {% endif %}
+
+                <div class="action-row">
+                    <a href="#" class="login-btn">Reset MFA →</a>
+                    <a href="{% url 'cas_ng_logout' %}" class="logout-link">← Log out</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
